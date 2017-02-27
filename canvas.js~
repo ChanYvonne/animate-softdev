@@ -1,0 +1,55 @@
+var canvas = document.getElementById("slate");
+var stopb = document.getElementById("stopb");
+var dvd = document.getElementById("dvd");
+var dot = document.getElementById("circle");
+var ctx = canvas.getContext("2d");
+
+ctx.fillStyle = "#f802ff";
+
+var clear = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
+
+var ret = 0;
+
+var animateDot = function() {
+
+    window.cancelAnimationFrame(ret);
+
+    var radius =  25;
+    var center = canvas.width/2;
+    var bounce = false;
+    
+    var circle = function() {
+	
+	clear();
+	//console.log("dot!");
+	ctx.beginPath();
+	ctx.arc(center, canvas.height/2, radius,0,2*Math.PI);
+	ctx.stroke();
+	ctx.fill();
+	
+	//console.log(ret);
+	console.log(radius == canvas.height/2);
+	
+	if (radius == canvas.height) {
+	    bounce = true;
+	    radius--;
+	}else if (radius >= 24 && bounce == false){
+	    radius ++;
+	}else if (radius == 25){
+	    bounce = false;
+	    radius ++;
+	}
+	ret = window.requestAnimationFrame( circle );
+    };
+    circle();
+};
+
+var stopit = function() {
+    window.cancelAnimationFrame(ret);
+};
+
+stopb.addEventListener( "click",  stopit );
+dot.addEventListener( "click", animateDot );
+
